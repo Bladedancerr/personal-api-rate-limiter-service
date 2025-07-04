@@ -22,7 +22,7 @@ public class ClientEntity {
     @Column(name = "rate_limit")
     private int rateLimit;
     @Column(name = "rate_window_sec")
-    private int rateWindowSeconds;
+    private long rateWindowSeconds;
     @Column(name = "enabled")
     private boolean enabled;
     @Column(name = "created_at")
@@ -90,11 +90,11 @@ public class ClientEntity {
         this.rateLimit = rateLimit;
     }
 
-    public int getRateWindowSeconds() {
+    public long getRateWindowSeconds() {
         return rateWindowSeconds;
     }
 
-    public void setRateWindowSeconds(int rateWindowSeconds) {
+    public void setRateWindowSeconds(long rateWindowSeconds) {
         this.rateWindowSeconds = rateWindowSeconds;
     }
 

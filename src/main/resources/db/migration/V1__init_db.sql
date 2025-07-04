@@ -4,7 +4,7 @@ CREATE TABLE client (
     password VARCHAR(255) NOT NULL, -- Hashed password (e.g. BCrypt)
     api_key VARCHAR(255) UNIQUE NOT NULL, -- Public-facing token
     rate_limit INT NOT NULL DEFAULT 100, -- Max requests per time window
-    rate_window_sec INT NOT NULL DEFAULT 3600, -- Window size in seconds
+    rate_window_sec BIGINT  NOT NULL DEFAULT 3600, -- Window size in seconds
     enabled BOOLEAN DEFAULT TRUE, -- Account status
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP-- Registration time
 );

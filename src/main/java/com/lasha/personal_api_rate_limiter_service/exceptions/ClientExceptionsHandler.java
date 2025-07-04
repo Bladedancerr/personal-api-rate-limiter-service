@@ -1,5 +1,6 @@
 package com.lasha.personal_api_rate_limiter_service.exceptions;
 
+import com.lasha.personal_api_rate_limiter_service.pojo.RateLimitInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,29 @@ public class ClientExceptionsHandler {
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED.value(), request.getRequestURI());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidApiKeyException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidApiKeyException(InvalidApiKeyException ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED.value(), request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidUserIdException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidUserIdException(InvalidUserIdException ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ClientDisabledException.class)
+    public ResponseEntity<ErrorResponse> handleClientDisabledException(ClientDisabledException ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN.value(), request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(RateLimitExceededException.class)
+    public ResponseEntity<ErrorResponse> handleRateLimitExceededException(RateLimitExceededException ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.TOO_MANY_REQUESTS.value(), request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.TOO_MANY_REQUESTS);
     }
 }

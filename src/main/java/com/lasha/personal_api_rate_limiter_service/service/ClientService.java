@@ -56,7 +56,9 @@ public class ClientService {
         entity.setPassword(bCryptPasswordEncoder.encode(clientRegisterRequest.getPassword().trim()));
 
         String generatedApiKey = apiKeyGenerator.generateApiKey();
-        entity.setApiKey(sha256Hasher.hashToHex(generatedApiKey));
+        String hashedApiKey = sha256Hasher.hashToHex(generatedApiKey);
+        System.out.println("Generated API Key: " + generatedApiKey + " | Hashed API Key: " + hashedApiKey);
+        entity.setApiKey(hashedApiKey);
 
         // Set default values from properties
         entity.setRateLimit(defaultRateLimit);
