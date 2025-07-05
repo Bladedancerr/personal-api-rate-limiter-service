@@ -2,10 +2,12 @@ package com.lasha.personal_api_rate_limiter_service.interceptors;
 
 import com.lasha.personal_api_rate_limiter_service.encoding.Sha256Hasher;
 import com.lasha.personal_api_rate_limiter_service.exceptions.InvalidApiKeyException;
+import com.lasha.personal_api_rate_limiter_service.exceptions.UserNotFoundException;
 import com.lasha.personal_api_rate_limiter_service.model.ClientEntity;
 import com.lasha.personal_api_rate_limiter_service.repository.ClientRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +21,7 @@ public class ApiKeyInterceptor implements HandlerInterceptor {
     @Value("${app.api-key-header}")
     private String apiKeyHeader;
 
+    @Autowired
     public ApiKeyInterceptor(ClientRepository clientRepository, Sha256Hasher sha256Hasher) {
         this.clientRepository = clientRepository;
         this.sha256Hasher = sha256Hasher;
@@ -27,7 +30,6 @@ public class ApiKeyInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String apiKey = request.getHeader(apiKeyHeader);
-        System.out.println("Received API key: " + apiKey + " header: " + apiKeyHeader);
         if(apiKey == null || apiKey.isEmpty() == true) {
             throw new InvalidApiKeyException("API key is missing or empty");
         }
@@ -36,10 +38,9 @@ public class ApiKeyInterceptor implements HandlerInterceptor {
 
         ClientEntity clientEntity = clientRepository.findClientByApiKeyHash(hashedApiKey);
         if(clientEntity == null) {
-            throw new InvalidApiKeyException("Invalid API key");
+            throw new UserNotFoundException("User not found for the provided API key | API Key: " + hashedApiKey);
         }
 
-        System.out.println("API key is valid for client: " + clientEntity.getEmail());
         return true;
     }
 }

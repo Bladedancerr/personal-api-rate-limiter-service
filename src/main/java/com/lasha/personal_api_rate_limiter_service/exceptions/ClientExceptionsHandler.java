@@ -69,4 +69,10 @@ public class ClientExceptionsHandler {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.TOO_MANY_REQUESTS.value(), request.getRequestURI());
         return new ResponseEntity<>(error, HttpStatus.TOO_MANY_REQUESTS);
     }
+
+    @ExceptionHandler(UserLimitExceededException.class)
+    public ResponseEntity<ErrorResponse> handleUserLimitExceededException(UserLimitExceededException ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), HttpStatus.TOO_MANY_REQUESTS.value(), request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.TOO_MANY_REQUESTS);
+    }
 }

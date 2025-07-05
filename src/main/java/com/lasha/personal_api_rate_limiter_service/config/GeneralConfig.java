@@ -1,5 +1,6 @@
 package com.lasha.personal_api_rate_limiter_service.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lasha.personal_api_rate_limiter_service.encoding.ApiKeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

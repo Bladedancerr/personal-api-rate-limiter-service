@@ -9,6 +9,7 @@ import com.lasha.personal_api_rate_limiter_service.dto.ClientRegisterRequest;
 import com.lasha.personal_api_rate_limiter_service.exceptions.InvalidCredentialsException;
 import com.lasha.personal_api_rate_limiter_service.model.ClientEntity;
 import com.lasha.personal_api_rate_limiter_service.repository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,12 @@ public class ClientService {
 
     @Value("${app.client.default-rate-limit}")
     private int defaultRateLimit;
+    @Value("${app.client.default_user_limit}")
+    private int defaultUserLimit;
     @Value("${app.client.default-rate-window-sec}")
     private int defaultRateWindowSeconds;
 
+    @Autowired
     public ClientService(ClientRepository clientRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ClientMapper clientMapper, ApiKeyGenerator apiKeyGenerator, Sha256Hasher sha256Hasher) {
         this.clientRepository = clientRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -62,6 +66,7 @@ public class ClientService {
 
         // Set default values from properties
         entity.setRateLimit(defaultRateLimit);
+        entity.setUserLimit(defaultUserLimit);
         entity.setRateWindowSeconds(defaultRateWindowSeconds);
 
         entity.setEnabled(true);

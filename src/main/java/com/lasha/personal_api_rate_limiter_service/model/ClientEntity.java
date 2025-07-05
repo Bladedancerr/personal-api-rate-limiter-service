@@ -21,6 +21,8 @@ public class ClientEntity {
     private  String apiKey;
     @Column(name = "rate_limit")
     private int rateLimit;
+    @Column(name = "user_limit")
+    private int userLimit;
     @Column(name = "rate_window_sec")
     private long rateWindowSeconds;
     @Column(name = "enabled")
@@ -36,6 +38,7 @@ public class ClientEntity {
                         String password,
                         String apiKey,
                         int rateLimit,
+                        int userLimit,
                         int rateWindowSeconds,
                         boolean enabled,
                         Instant createdAt) {
@@ -45,6 +48,7 @@ public class ClientEntity {
         this.password = password;
         this.apiKey = apiKey;
         this.rateLimit = rateLimit;
+        this.userLimit = userLimit;
         this.rateWindowSeconds = rateWindowSeconds;
         this.enabled = enabled;
         this.createdAt = createdAt;
@@ -112,6 +116,14 @@ public class ClientEntity {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getUserLimit() {
+        return userLimit;
+    }
+
+    public void setUserLimit(int userLimit) {
+        this.userLimit = userLimit;
     }
 
     @Override

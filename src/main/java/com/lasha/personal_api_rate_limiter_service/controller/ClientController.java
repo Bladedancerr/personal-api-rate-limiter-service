@@ -3,6 +3,7 @@ package com.lasha.personal_api_rate_limiter_service.controller;
 import com.lasha.personal_api_rate_limiter_service.dto.ClientRegisterRequest;
 import com.lasha.personal_api_rate_limiter_service.dto.ClientRegisterResponse;
 import com.lasha.personal_api_rate_limiter_service.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ public class ClientController {
 
     private final ClientService clientService;
 
+    @Autowired
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
